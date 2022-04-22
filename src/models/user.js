@@ -5,7 +5,7 @@ var validateEmail = function(email) {
     return re.test(email)
 };
 
-const userchema = new mongoose.Schema({ 
+const UserSchema = new mongoose.Schema({ 
     name:{
         type:String,
         required: [true,'Name is required'],
@@ -51,7 +51,28 @@ const userchema = new mongoose.Schema({
         required:true,
     },
 
+    //for doctor
+    assignedPatients:{
+        type:[mongoose.Types.ObjectId],
+        ref:"User"
+    },
+
+    //for patient
+    assignedDoctor:{
+        type:mongoose.Types.ObjectId,
+        ref:"User"
+    }
+
 }, { timestamps: true })
 
-const User = mongoose.model('User', userchema)
-module.exports = User;
+//we can also hash password here
+//for removing assignedPatients if the user is not doctor
+UserSchema.pre('save',function(next){
+    if(this.role != 'doctor'){
+        this.assignedPatients = undefined;
+    }
+    next();
+})
+
+const User = mongoose.model('User', UserSchema)
+module.exports = User; 

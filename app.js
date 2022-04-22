@@ -7,6 +7,12 @@ const jwt = require('jsonwebtoken');
 var cors = require('cors')
 var mongoose = require('mongoose');
 
+//routers
+var authRouter = require('./src/routes/auth');
+var doctorRouter = require("./src/routes/doctor");
+var patientRouter = require("./src/routes/patient");
+var adminRouter = require("./src/routes/admin");
+
 var app = express();
 
 require('dotenv').config();
@@ -16,7 +22,6 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
   .catch(err => console.log(err));
 
 
-var authRouter = require('./src/routes/auth')
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -44,9 +49,9 @@ app.use(function(req, res, next) {
 
 
 app.use('/api/accounts',authRouter);
-
-
-
+app.use('/api/doctor',doctorRouter);
+app.use('/api/patient',patientRouter);
+app.use('/api/admin',adminRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
