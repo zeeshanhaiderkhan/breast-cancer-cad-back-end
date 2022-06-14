@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const PrescriptionSchema = new mongoose.Schema({
+const MammogramSchema = new mongoose.Schema({
     title:{
         type:String,
         required:true,
@@ -9,9 +9,17 @@ const PrescriptionSchema = new mongoose.Schema({
     },
     filePath:{
         type:String,
+        required:true
     },
-    comments:{
-       type:String
+    reportFile:{
+        type:String,
+        required:true
+    },
+    tumor:{
+        type:String,
+    },
+    tumorType:{
+        type:String
     },
     uploadedBy:{
         type:mongoose.Schema.Types.ObjectId,
@@ -29,5 +37,5 @@ const PrescriptionSchema = new mongoose.Schema({
 });
 
 
-const Prescription =mongoose.model('Prescription',PrescriptionSchema);
-module.exports = Prescription;
+const Mammogram =mongoose.model('Mammogram',MammogramSchema);
+module.exports = Mammogram;

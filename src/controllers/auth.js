@@ -4,8 +4,12 @@ const User = require('../models/user')
 const saltRounds = 10;
 
 
+
+
+
 function authorize_user(req,res){
 
+    console.log(req.body);
     User.findOne({email:req.body.email},function(err,data){
         if(data != null){
             bcrypt.compare(req.body.password,data.password,function(err,isMatch){
@@ -44,6 +48,7 @@ function authorize_user(req,res){
 }
 
 function create_new_user(req,res){
+    
     User.findOne({email:req.body.email},function(err,data){
         if(data!=null){
             res.status(304).json({message:"User with email: "+req.body.email+" already exists"})

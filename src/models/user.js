@@ -43,8 +43,8 @@ const UserSchema = new mongoose.Schema({
     },
     cnic:{
         type:String,
-        minlength:13,
-        maxlength:13, //without dashes
+        //minlength:13,
+        //maxlength:13, //without dashes
     },
     phone:{
         type:String,
@@ -53,16 +53,23 @@ const UserSchema = new mongoose.Schema({
 
     //for doctor
     assignedPatients:{
-        type:[mongoose.Types.ObjectId],
+        type:[mongoose.Schema.Types.ObjectId],
         ref:"User"
     },
 
     //for patient
     assignedDoctor:{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:"User"
+    },
+    //for storing reports for patients
+    /*reports:{
+        type:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Report"
+        }]
     }
-
+*/
 }, { timestamps: true })
 
 //we can also hash password here
@@ -70,6 +77,9 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre('save',function(next){
     if(this.role != 'doctor'){
         this.assignedPatients = undefined;
+    }
+    else if(this.role =='patient'){
+        this.reports = undefined;
     }
     next();
 })

@@ -12,6 +12,14 @@ var authRouter = require('./src/routes/auth');
 var doctorRouter = require("./src/routes/doctor");
 var patientRouter = require("./src/routes/patient");
 var adminRouter = require("./src/routes/admin");
+var reportRouter = require("./src/routes/report");
+var fileRouter = require("./src/routes/file");
+var appointmentRouter = require('./src/routes/appointment');
+var dietPlanRouter = require("./src/routes/dietPlan");
+var mammogramRouter = require("./src/routes/mammogram");
+var feedbackRouter = require('./src/routes/feedback');
+var prescriptionRouter = require('./src/routes/prescription');
+
 
 var app = express();
 
@@ -30,15 +38,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
-  cors({
+  cors()
+);
+
+/*
+{
     origin: [
+      'https://localhost:19006',
+      'https://192.168.31.218:19000',
       `${process.env.FRONT_URL}`,
       'http://localhost:3001',
+      'http://192.168.100.12:3002',
+      'http://192.168.100.12:3001',
+      'http://localhost:3002/'
+      
     ],
-    credentials: true
-  })
-);
-/*
+    credentials: false
+  }
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -52,6 +68,18 @@ app.use('/api/accounts',authRouter);
 app.use('/api/doctor',doctorRouter);
 app.use('/api/patient',patientRouter);
 app.use('/api/admin',adminRouter);
+app.use('/api/report',reportRouter);
+app.use('/api/appointment',appointmentRouter);
+app.use('/api/dietplan',dietPlanRouter);
+
+app.use('/api/prescription',prescriptionRouter);
+
+app.use('/api/feedback',feedbackRouter);
+
+//mammogram
+app.use('/api/mammogram',mammogramRouter);
+
+app.use('/file',fileRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -64,6 +92,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3001);
+app.listen(3000);
 
 module.exports = app;

@@ -1,10 +1,15 @@
 const { verifyRole ,verifyToken} = require("../middleware/verifyToken");
-const {getAllDoctors,getDoctor,deleteDoctor,updateDoctor} = require("../controllers/doctor");
+const {getAllDoctors,getDoctor,deleteDoctor,updateDoctor,assignPatient,
+getPatientsAssigned    } = require("../controllers/doctor");
 const router = require("express").Router();
 
-router.get("/all",verifyRole(["admin","doctor","patient"]),getAllDoctors);
-router.get("/:id",verifyRole(["admin","doctor","patient"]),getDoctor);
-router.delete("/:id",verifyRole(["admin","doctor","patient"]),deleteDoctor)
-router.put("/:id",verifyRole(["admin","doctor","patient"]),updateDoctor)
+router.get("/all",getAllDoctors);
+router.get("/:id",getDoctor);
+router.delete("/:id",deleteDoctor)
+router.put("/:id",updateDoctor)
+router.post('/assign/:id',assignPatient)
+router.get('/patients/:id',getPatientsAssigned)
+
+
 
 module.exports = router;

@@ -12,10 +12,9 @@ const verifyToken = async (req, res, next) => {
       }
       try{
         const decrypt = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = {
-            user: decrypt.user,
-        };
-        console.log(decrypt.user);
+        console.log(decrypt)
+        req.user = decrypt.data;
+        console.log(req.user);
         next();
       }
       catch(err){
@@ -41,7 +40,7 @@ const verifyToken = async (req, res, next) => {
           try {
             decoded = jwt.verify(token, process.env.JWT_SECRET);
             console.log("DECODED: "+decoded.data.role);
-          
+            req.user = decode.user;
             
           } catch (err) {
             return res.status(401).send("Invalid Token");

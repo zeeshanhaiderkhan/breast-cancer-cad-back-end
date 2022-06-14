@@ -2,9 +2,9 @@ const { verifyRole ,verifyToken} = require("../middleware/verifyToken");
 const {getAllAdmins,getAdmin,deleteAdmin,updateAdmin} = require("../controllers/admin");
 const router = require("express").Router();
 
-router.get("/all",verifyRole(["admin","doctor","patient"]),getAllAdmins);
-router.get("/:id",verifyRole(["admin","doctor","patient"]),getAdmin);
-router.delete("/:id",verifyRole(["admin","doctor","patient"]),deleteAdmin)
-router.put("/:id",verifyRole(["admin","doctor","patient"]),updateAdmin)
+router.get("/all",getAllAdmins);
+router.get("/:id",getAdmin);
+router.delete("/:id",deleteAdmin)
+router.put("/:id",updateAdmin)
 
 module.exports = router;
